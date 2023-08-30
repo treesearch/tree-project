@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tree Search</title>
+
+    <link rel="stylesheet" href="estilos_navegador/styles.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <style>
+        .search-bar {
+            transition: border-color 0.2s, color 0.2s;
+        }
+
+        .search-bar.valid-url {
+            border-color: green;
+        }
+
+        .search-bar.invalid-url {
+            border-color: orange;
+        }
+
+        .secure-url {
+            color: green;
+        }
+
+        .unsecure-url {
+            color: red;
+        }
+
+        .not-url {
+            color: white;
+        }
+
+        .url-status {
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        #clock {
+            font-size: 35px;
+            font-weight: bold;
+            color: white;
+        }
+
+        /* Estilos para la fecha */
+        #date {
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            margin-top: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <!-- Elementos de navegación si es necesario -->
+        </nav>
+    </header>
+
+    <main>
+        <section class="main-logo">
+            <!-- Logotipo o contenido principal si es necesario -->
+        </section>
+
+        <section class="main-input">
+            <div class="main-input-container">
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+                <form id="search-form" action="#" method="GET" onsubmit="performDuckDuckGoSearch(); return false;">
+                    <input type="text" name="q" id="search-input" autocomplete="off"
+                        onkeydown="if(event.keyCode==13) performDuckDuckGoSearch();" class="search-bar">
+                </form>
+                <div class="url-status" id="url-status"></div>
+            </div>
+        </section>
+
+        <section class="main-clock">
+            <div id="clock"></div>
+            <div id="date"></div> <!-- Nuevo elemento para mostrar la fecha -->
+        </section>
+
+        <section class="main-buttons">
+            <div>
+                <!-- Botones u otro contenido si es necesario -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const urlStatus = document.getElementById('url-status');
+
+        searchInput.addEventListener('input', () => {
+            const inputValue = searchInput.value.toLowerCase();
+
+            if (inputValue.startsWith('https://')) {
+                urlStatus.textContent = inputValue === 'https://' ? '❔' : '✅';
+                urlStatus.classList.remove('unsecure-url', 'not-url');
+                urlStatus.classList.add('secure-url');
+            } else if (inputValue.startsWith('http://')) {
+                urlStatus.textContent = inputValue === 'http://' ? '❔' : '⛔';
+                urlStatus.classList.remove('secure-url', 'not-url');
+                urlStatus.classList.add('unsecure-url');
+            } else {
+                urlStatus.textContent = '';
+                urlStatus.classList.remove('secure-url', 'unsecure-url');
+                urlStatus.classList.add('not-url');
+            }
+        });
+
+        function performDuckDuckGoSearch() {
+            const query = searchInput.value;
+            if (query.startsWith('https://') || query.startsWith('http://')) {
+                // Abrir todo en la misma ventana de la aplicación
+                window.location.href = query;
+            } else {
+                // Abrir todo en la misma ventana de la aplicación
+                window.location.href = `https://duckduckgo.com/?q=${encodeURIComponent(query)}`;
+            }
+        }
+
+        function updateClock() {
+            const now = new Date();
+            const hours = now.getHours();
+            const minutes = now.getMinutes();
+
+            const timeString = `${formatDigit(hours)}:${formatDigit(minutes)}`;
+
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        function formatDigit(digit) {
+            return digit < 10 ? `0${digit}` : digit;
+        }
+
+        setInterval(updateClock, 1000);
+        updateClock();
+
+        // Función para mostrar la fecha
+        function updateDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'numeric', day: 'numeric' };
+            const dateString = now.toLocaleDateString(navigator.language, options);
+
+            document.getElementById('date').textContent = dateString;
+        }
+
+        setInterval(updateDate, 1000);
+        updateDate();
+    </script>
+</body>
+
+</html>
+
+                                                          <!-- TREE SEARCH -->             <!-- EMPIEZA A CREAR AQUI-->
